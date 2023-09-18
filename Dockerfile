@@ -4,11 +4,14 @@ FROM python:3.10
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
+# Actualiza pip a la última versión
+RUN pip install --no-cache-dir --upgrade pip
+
 # Copia el archivo de requisitos (requirements.txt) al contenedor
 COPY requirements.txt .
 
 # Instala las dependencias del proyecto
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el código fuente de tu proyecto al contenedor
 COPY . .
