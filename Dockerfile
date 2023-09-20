@@ -1,26 +1,21 @@
-# Usa la imagen oficial de Python como base
+# Usa una imagen base de Python
 FROM python:3.10
 
-# Establece el directorio de trabajo dentro del contenedor
+# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Actualiza pip a la última versión
-RUN pip install --no-cache-dir --upgrade pip
-
-# Copia el archivo de requisitos (requirements.txt) al contenedor
-COPY requirements.txt .
+# Copia el archivo requirements.txt al directorio de trabajo
+COPY requirements.txt requirements.txt
 
 # Instala las dependencias del proyecto
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copia el código fuente de tu proyecto al contenedor
+# Copia todo el contenido del directorio actual al directorio de trabajo
 COPY . .
 
-# Expone el puerto en el que se ejecutará la aplicación Django
+# Expone el puerto 8000 para acceder al servidor Django
 EXPOSE 8000
 
-# Define la variable de entorno para la configuración de Django
-ENV DJANGO_SETTINGS_MODULE=blog_project.settings
+# Comando para ejecutar el servidor Django
+CMD ["python", "blog_project/manage.py", "runserver", "0.0.0.0:8000"]
 
-# Ejecuta el servidor de desarrollo de Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
